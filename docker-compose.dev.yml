@@ -1,0 +1,28 @@
+version: '3.8'
+services:
+  backend:
+    container_name: proyecto_backend
+    build:
+      context: ./proyectBackend
+      dockerfile: Dockerfile
+    ports:
+      - 5000:5000
+    depends_on:
+      - database
+  frontend:
+    container_name: proyecto_frontend
+    build:
+      context: ./proyectFrontend
+      dockerfile: Dockerfile
+    ports:
+      - 4200:4200
+    depends_on:
+      - backend
+  database:
+    image: postgres:latest
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: your_username
+      POSTGRES_PASSWORD: your_password
+      POSTGRES_DB: your_database_name

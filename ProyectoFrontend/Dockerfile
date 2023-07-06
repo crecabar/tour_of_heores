@@ -1,0 +1,28 @@
+# Imagen base para la construcción del proyecto de Angular
+FROM node:18 as build-stage
+
+# Establecer el directorio de trabajo dentro del contenedor
+WORKDIR /app
+
+# Copiar los archivos de configuración del proyecto
+COPY package*.json ./
+
+# Instalar las dependencias del proyecto
+RUN npm install -g npm@latest
+RUN npm install
+
+# Copiar el código fuente del proyecto
+COPY . .
+
+# Construir la aplicación de Angular
+RUN npm run build
+
+# Imagen base para el runtime de la aplicación de Angular
+FROM nginx:1.21
+
+# Copiar los archivos de construcción al contenedor Nginx
+COPY --from=build-stage /app/dist/proyecto-frontend /usr/share/nginx/html
+
+# Configurar la exposición del puerto y el inicio de Nginx
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
