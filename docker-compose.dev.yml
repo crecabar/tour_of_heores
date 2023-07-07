@@ -1,24 +1,25 @@
 version: '3.8'
 services:
   backend:
-    container_name: proyecto_backend
+    container_name: proyecto_backend_dev
     build:
-      context: ./proyectBackend
-      dockerfile: Dockerfile
+      context: ./ProyectoBackend
+      dockerfile: Dockerfile.dev
     ports:
       - 5000:5000
     depends_on:
       - database
   frontend:
-    container_name: proyecto_frontend
+    container_name: proyecto_frontend_dev
     build:
-      context: ./proyectFrontend
-      dockerfile: Dockerfile
+      context: ./ProyectoFrontend
+      dockerfile: Dockerfile.dev
     ports:
       - 4200:4200
     depends_on:
       - backend
   database:
+    container_name: proyecto_db_dev
     image: postgres:latest
     ports:
       - 5432:5432
